@@ -1,0 +1,16 @@
+{
+  "name": "pitchrec",
+  "version": "1.0.0",
+  "description": "Test record and shift pitch and save as wav",
+  "main": "main.js",
+  "dependencies": {
+    "audiobuffer-to-wav": "^1.0.0",
+    "raw-media-recorder": "^2.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

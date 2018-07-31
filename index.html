@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link href="styles.css" rel="stylesheet">
+        <script src="node_modules/raw-media-recorder/lib/RawMediaRecorder.js" /></script>
+        <script src="node_modules/audiobuffer-to-wav/index.js" /></script>
+    </head>
+    <body class="voice-changer">
+        <fieldset>
+            <legend>Audio settings</legend>
+
+            <label for="rate">Playback rate, (0-2)</label>
+            <input type="range" id="rate" name="rate"
+                    min="0" max="2" value="1" step="0.01" />
+
+            <label for="detune">Detune amount</label>
+            <input type="range" id="detune" name="detune"
+                    min="-2400" max="2400" value="0" step="100" />
+
+            <div>
+                <label for="download">Download sample</label>
+                <input type="checkbox" id="download" name="download"/>
+            </div>
+
+            <div>
+                <span>Rate:</span>
+                <span id="rate-value">1</span>
+                <span>Detune:</span>
+                <span id="detune-value">0</span>
+            </div>
+        </fieldset>
+
+        <button id="btn-record">Record!</button>
+        <button id="btn-stop">Play back!</button>
+        <!-- <script src="record.js" ></script> -->
+        <!-- <script src="main.js" ></script> -->
+        <script src="index.js"></script>
+    </body>
+</html>
