@@ -18,11 +18,14 @@ sliderDetune.onchange = function() {
 
 var ctx = new AudioContext();
 var offline = new OfflineAudioContext(1, 5 * 48000, 48000);
-var recorder = new RawMediaRecorder(ctx);
+var recorder = new RawMediaRecorder(ctx, { float32: false });
 recorder.ondata = data => {
     // Data recorder as AudioBuffer
     console.log("data:", data);
-    shiftPitch(shouldDownload.checked ? offline : ctx, data);
+    shiftPitch(shouldDownload.checked
+        ? new OfflineAudioContext(data.numberOfChannels, data.length, data.sampleRate)
+        : ctx,
+        data);
 }
 
 btnRecord.onclick = function() {
@@ -43,32 +46,29 @@ function shiftPitch(audioContext, buffer) {
     src.buffer = buffer;
     src.connect(audioContext.destination);
 
-    console.log("+sliderRate.nodeValue:", +sliderRate.value, "+sliderDetune.nodeValue:", +sliderDetune.value);
-
-    src.playbackRate.value = +sliderRate.value; //1.3; // <- changed the pitch without any fancy fucking filters :E
-    src.detune.value = +sliderDetune.value; // 2;
+    src.playbackRate.value = +sliderRate.value; // <- changed the pitch without any fancy fucking filters :E
+    src.detune.value = +sliderDetune.value;
 
     audioContext.oncomplete = function (ev) {
         var wav = audioBufferToWav(ev.renderedBuffer);
 
         var blob = new window.Blob([new DataView(wav)], {
-            type: 'audio/wav'
+            type: "audio/wav"
         });
 
         var url = window.URL.createObjectURL(blob);
-        var anchor = document.createElement('a');
+        var anchor = document.createElement("a");
         document.body.appendChild(anchor);
-        anchor.style = 'display: none';
+        anchor.style = "display: none";
         anchor.href = url;
         anchor.download = "rate-" + sliderRate.value + "-detune-" + sliderDetune.value + "-sample.wav";
         anchor.click();
         window.URL.revokeObjectURL(url);
     }
 
+    src.start();
     if (shouldDownload.checked) {
         audioContext.startRendering();
-    } else {
-        src.start();
     }
 }
 
