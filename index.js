@@ -17,8 +17,7 @@ sliderDetune.onchange = function() {
 
 
 var ctx = new AudioContext();
-var offline = new OfflineAudioContext(1, 5 * 48000, 48000);
-var recorder = new RawMediaRecorder(ctx, { float32: false });
+var recorder = new RawMediaRecorder(ctx);
 recorder.ondata = data => {
     // Data recorder as AudioBuffer
     console.log("data:", data);
